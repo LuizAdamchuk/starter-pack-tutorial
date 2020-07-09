@@ -1,21 +1,34 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import 'react-native-gesture-handler';
+import { AppLoading } from 'expo';
+import * as React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { Roboto_400Regular, Roboto_500Medium } from '@expo-google-fonts/roboto';
+import { Ubuntu_700Bold, useFonts } from '@expo-google-fonts/ubuntu';
 
-export default function App() {
+import { Onboarding } from './src/pages/Authentication/Onboarding';
+
+const AuthenticationStack = createStackNavigator();
+const AuthenticationNavigator = () => {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <AuthenticationStack.Navigator headerMode="none">
+      <AuthenticationStack.Screen name="Onboarding" component={Onboarding} />
+    </AuthenticationStack.Navigator>
+  );
+};
+export default function App() {
+  const [fontsLoaded] = useFonts({
+    Roboto_400Regular,
+    Roboto_500Medium,
+    Ubuntu_700Bold,
+  });
+
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
+  return (
+    <NavigationContainer>
+      <AuthenticationNavigator />
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
