@@ -1,11 +1,18 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-export const Subslide = ({ subtitle, description, last }) => {
+import { Button } from '../../components/Button';
+
+export const Subslide = ({ subtitle, description, last, onPress }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.subtitle}>{subtitle}</Text>
       <Text style={styles.description}>{description}</Text>
+      <Button
+        label={last ? 'Vamos começar?' : 'Próximo'}
+        variant={last ? 'primary' : 'default'}
+        {...{ onPress }}
+      />
     </View>
   );
 };
