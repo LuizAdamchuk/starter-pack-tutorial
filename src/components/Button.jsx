@@ -5,8 +5,12 @@ import { RectButton } from 'react-native-gesture-handler';
 
 export const Button = ({ variant, label, onPress }) => {
   const backgroundColor =
-    variant === 'primary' ? '#2cb9b0' : 'rgba(12,13,52,0.05)';
-  const color = variant === 'primary' ? 'white' : '#000';
+    variant === 'primary'
+      ? '#2cb9b0'
+      : variant === 'transparent'
+      ? 'transparent'
+      : 'rgba(12,13,52,0.05)';
+  const color = variant === 'primary' ? 'white' : '#444';
 
   return (
     <RectButton

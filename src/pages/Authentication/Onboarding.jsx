@@ -6,6 +6,7 @@ import { useScrollHandler, interpolateColor } from 'react-native-redash';
 import { Slide } from './Slide';
 import { Subslide } from './Subslide';
 import { Dot } from './Dot';
+import { useNavigation } from '@react-navigation/native';
 
 const { width, height } = Dimensions.get('window');
 export const SLIDE_HEIGHT = 0.61 * height;
@@ -46,6 +47,7 @@ const slides = [
 ];
 
 export const Onboarding = () => {
+  const navigation = useNavigation();
   const scroll = useRef(null);
   const { scrollHandler, x } = useScrollHandler();
   const backgroundColor = interpolateColor(x, {
@@ -89,20 +91,24 @@ export const Onboarding = () => {
               transform: [{ translateX: multiply(x, -1) }],
             }}
           >
-            {slides.map(({ subtitle, description }, index) => (
-              <Subslide
-                key={index}
-                last={index === slides.length - 1}
-                {...{ subtitle, description }}
-                onPress={() => {
-                  if (scroll.current) {
-                    scroll.current
-                      .getNode()
-                      .scrollTo({ x: width * (index + 1), animated: true });
-                  }
-                }}
-              />
-            ))}
+            {slides.map(({ subtitle, description }, index) => {
+              const last = index === slides.length - 1;
+              return (
+                <Subslide
+                  key={index}
+                  {...{ subtitle, description, last }}
+                  onPress={() => {
+                    if (last) {
+                      navigation.navigate('Welcome');
+                    } else if (scroll.current) {
+                      scroll.current
+                        .getNode()
+                        .scrollTo({ x: width * (index + 1), animated: true });
+                    }
+                  }}
+                />
+              );
+            })}
           </Animated.View>
         </View>
       </Animated.View>
